@@ -6,7 +6,7 @@ const centerX = vw/2;
 const centerY = vh/2;
 
 // Hexagon variables
-const r = 70;
+const r = 50;
 const planeHeight = Math.sqrt(3) * r
 const widthOffset = Math.sqrt(3) * 0.5 * r
 
@@ -17,7 +17,8 @@ let coordinates = {}
 let centers = []
 for (i = -width; i <= width; i++) {
     for (j = -height; j <= height; j++) {
-        coordinates[[i, j]] = getCenter(i, j)
+        p = getCenter(i, j)
+        coordinates[[i, j]] = {pos: p, posID: `${p.x}-${p.y}`}
         centers.push(getCenter(i, j))
     }
 }
@@ -45,42 +46,77 @@ function hexagon(pos, label = "", type = "board") {
 };
 
 function getCenter(i, j) {
-    let x = centerX + i * r * 1.5
-    let y = centerY + j * planeHeight + isEven(i) * widthOffset
+    let x = Math.round((centerX + i * r * 1.5) * 1000) / 1000
+    let y = Math.round((centerY + j * planeHeight + isEven(i) * widthOffset) * 1000) / 1000
     return {"x": x, "y": y}
 }
 
 function getClosestCellCenter() {
     const mousePos = {x: mouseX, y: mouseY}
-    let closestCell = centers[0]
+    let closestCellPos = centers[0]
 
     function getDistance(point1, point2) {
         return Math.sqrt(Math.pow((point1.x - point2.x),2) + Math.pow((point1.y - point2.y),2))
     }
 
     for (i = 0; i < centers.length; i++) {
-        lastDistance = getDistance(closestCell, mousePos)
+        lastDistance = getDistance(closestCellPos, mousePos)
         newDistance = getDistance(centers[i], mousePos)
         if (newDistance < lastDistance) {
-            closestCell = centers[i]
+            closestCellPos = centers[i]
         }
     }
 
-    return closestCell
+    return closestCellPos
 }
 
-function getIndexByPosition(centerPos) { 
-    return Object.keys(coordinates).find(key => coordinates[key] === centerPos); 
-} 
+function getPosIDByPosition() {
+    const centerPos = getClosestCellCenter()
+    return `${centerPos.x}-${centerPos.y}`
+}
+
+function getIndexByPosition() {
+    const posID =  getPosIDByPosition()
+    return Object.keys(coordinates).find(key => coordinates[key].posID === posID); 
+}
 
 // Drawing actual board stuff
 
 function drawBoard() {
-    for (let center in coordinates) {
-        hexagon(coordinates[center], `${center}`)
+    for (let c in coordinates) {
+        hexagon(coordinates[c].pos, `${c}`)
     }
 };
 
 function highlightCell() {
     hexagon(getClosestCellCenter(),"","hover")
 };
+
+function highlightTile() {
+    const posID = getPosIDByPosition();
+    tiles.forEach((tile) => {
+        if (tile.posID() === posID) {
+            tile.highlight()
+        };
+    });
+};
+
+function tileClicked() {
+    const posID = getPosIDByPosition();
+    let tileClicked = false;
+    tiles.forEach((tile) => {
+        if (tile.posID() === posID) {
+            tileClicked = true;
+        };
+    });
+    
+    return tileClicked;
+}
+
+function updateTile(tilePosID, attr, val) {
+    tiles.forEach((tile) => {
+        if (tile.posID() === tilePosID) {
+            tile[attr] = val
+        };
+    });
+}
