@@ -6,37 +6,23 @@ function setup() {
 }
 
 // Game initialization
-let tiles = []
-createTiles()
-
-// const tile1 = new Tile({});
-// const tile2 = new Tile(tile1, 3);
-
-// tiles.push(tile1)
-// tiles.push(tile2)
-
+let board = new Board()
 
 function draw() {
     // DEBUGGING - Draws the board tiles outlines and positions
-    drawBoard()
+    board.drawBoard();
 
     let gameOver = false;
 
     if (!gameOver) {
         // Update tiles
-        tiles.forEach((tile) => {
-            if (tile.mode === "follow") {
-                tile.updatePos()
-            }
-        })
+        board.updateTiles();
 
         // Draw all set tiles
-        for (i = 0; i < tiles.length; i++) {
-            tiles[i].draw();
-        }
+        board.drawTiles();
 
         // Draw tile highlights
-        // highlightCell()
-        highlightTile()
+        // board.highlightCell()
+        board.highlightTile()
     }
 }

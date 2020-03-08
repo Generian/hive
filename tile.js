@@ -1,21 +1,28 @@
 class Tile {
-    constructor(coordinates, type) {
-        this.coordinates = coordinates;
-        this.type = type
-        this.mode = "static"       
+    constructor(pos, type) {
+        this.pos = pos;
+        this.coordinates = [];
+        this.type = type;
+        this.playable = true;
+        this.mode = "static";
+        this.level = 1;   
     }
 
     // Adding a method to the constructor
+    posID() {
+        if (this.coordinates.length == 0) {
+            return getPosIDByPosition(this.pos)
+        } else {
+            return getPosIDByIndex(this.coordinates)
+        }
+    }
+
     draw() {
-        hexagon(coordinates[this.coordinates].pos, "", `tile_${this.type}`)
+        hexagon(coords[this.posID()].center, "", `tile_${this.type}`)
     }
 
     highlight() {
-        hexagon(coordinates[this.coordinates].pos, "", "hover")
-    }
-
-    posID() {
-        return coordinates[this.coordinates].posID
+        hexagon(coords[this.posID()].center, "", "hover")
     }
 
     updatePos(pos = getIndexByPosition()) {
