@@ -1,5 +1,7 @@
-import { vw, vh, centerX, centerY, r, planeHeight, widthOffset, width_abs, height_abs, width, height, coords, centers, sytle } from './variables.js';
+import p5 from "p5/lib/p5.min";
+import { vw, vh, centerX, centerY, r, planeHeight, widthOffset, width_abs, height_abs, width, height, coords, centers, style } from './variables.js';
 import { mode, determineMode, mouseClicked } from './events.js';
+
 
 export function isEven(n) {
     if (n % 2 == 0) {
@@ -11,22 +13,22 @@ export function isEven(n) {
  
  export function hexagon(pos, label = "", type = "board") {
     const s = style[type]
-    let angle = TWO_PI / 6;
-    fill(s.fillColor);
-    stroke(s.strokeColor);
-    strokeWeight(s.strokeWeight);
-    beginShape();
-    for (let a = 0; a < TWO_PI; a += angle) {
+    let angle = Math.PI / 3;
+    p5.fill(s.fillColor);
+    p5.stroke(s.strokeColor);
+    p5.strokeWeight(s.strokeWeight);
+    p5.beginShape();
+    for (let a = 0; a < (2 * Math.PI); a += angle) {
       let sx = pos.x + cos(a) * r;
       let sy = pos.y + sin(a) * r;
-      vertex(sx, sy);
+      p5.vertex(sx, sy);
     }
-    endShape(CLOSE);
-    textSize(s.textSize);
-    textAlign(CENTER, CENTER);
-    fill(s.textColor);
-    noStroke();
-    text(label, pos.x , pos.y);
+    p5.endShape(CLOSE);
+    p5.textSize(s.textSize);
+    p5.textAlign(CENTER, CENTER);
+    p5.fill(s.textColor);
+    p5.noStroke();
+    p5.text(label, pos.x , pos.y);
 };
 
 export function getClosestCellCenter() {
