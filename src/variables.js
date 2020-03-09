@@ -1,5 +1,5 @@
 import { isEven, hexagon, getClosestCellCenter, getCenter, getPosIDByPosition, getPosIDByIndex, getIndexByPosition } from './helper.js';
-import { mode, determineMode, mouseClicked } from './events.js';
+import { mode, determineMode } from './events.js';
 
 // Viewport variables
 export const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);

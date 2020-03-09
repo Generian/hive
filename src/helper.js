@@ -1,6 +1,6 @@
-import p5 from "p5/lib/p5.min";
+import {myP5} from "./index.js";
 import { vw, vh, centerX, centerY, r, planeHeight, widthOffset, width_abs, height_abs, width, height, coords, centers, style } from './variables.js';
-import { mode, determineMode, mouseClicked } from './events.js';
+import { mode, determineMode } from './events.js';
 
 
 export function isEven(n) {
@@ -14,34 +14,34 @@ export function isEven(n) {
  export function hexagon(pos, label = "", type = "board") {
     const s = style[type]
     let angle = Math.PI / 3;
-    p5.fill(s.fillColor);
-    p5.stroke(s.strokeColor);
-    p5.strokeWeight(s.strokeWeight);
-    p5.beginShape();
+    myP5.fill(s.fillColor);
+    myP5.stroke(s.strokeColor);
+    myP5.strokeWeight(s.strokeWeight);
+    myP5.beginShape();
     for (let a = 0; a < (2 * Math.PI); a += angle) {
-      let sx = pos.x + cos(a) * r;
-      let sy = pos.y + sin(a) * r;
-      p5.vertex(sx, sy);
+      let sx = pos.x + Math.cos(a) * r;
+      let sy = pos.y + Math.sin(a) * r;
+      myP5.vertex(sx, sy);
     }
-    p5.endShape(CLOSE);
-    p5.textSize(s.textSize);
-    p5.textAlign(CENTER, CENTER);
-    p5.fill(s.textColor);
-    p5.noStroke();
-    p5.text(label, pos.x , pos.y);
+    myP5.endShape(myP5.CLOSE);
+    myP5.textSize(s.textSize);
+    myP5.textAlign(myP5.CENTER, myP5.CENTER);
+    myP5.fill(s.textColor);
+    myP5.noStroke();
+    myP5.text(label, pos.x , pos.y);
 };
 
 export function getClosestCellCenter() {
-    const mousePos = {x: mouseX, y: mouseY}
+    const mousePos = {x: myP5.mouseX, y: myP5.mouseY}
     let closestCellPos = centers[0]
 
     function getDistance(point1, point2) {
         return Math.sqrt(Math.pow((point1.x - point2.x),2) + Math.pow((point1.y - point2.y),2))
     }
 
-    for (i = 0; i < centers.length; i++) {
-        lastDistance = getDistance(closestCellPos, mousePos)
-        newDistance = getDistance(centers[i], mousePos)
+    for (let i = 0; i < centers.length; i++) {
+        const lastDistance = getDistance(closestCellPos, mousePos)
+        const newDistance = getDistance(centers[i], mousePos)
         if (newDistance < lastDistance) {
             closestCellPos = centers[i]
         }
