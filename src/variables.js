@@ -1,22 +1,25 @@
-// Viewport variables
-const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+import { isEven, hexagon, getClosestCellCenter, getCenter, getPosIDByPosition, getPosIDByIndex, getIndexByPosition } from './helper.js';
+import { mode, determineMode, mouseClicked } from './events.js';
 
-const centerX = vw/2;
-const centerY = vh/2;
+// Viewport variables
+export const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+export const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+export const centerX = vw/2;
+export const centerY = vh/2;
 
 // Hexagon variables
-const r = 50;
-const planeHeight = r * Math.sqrt(3);
-const widthOffset = r * Math.sqrt(3) * 0.5;
+export const r = 50;
+export const planeHeight = r * Math.sqrt(3);
+export const widthOffset = r * Math.sqrt(3) * 0.5;
 // Board variables
-const width_abs = 10;
-const height_abs = 10;
-const width = 5;
-const height = 2;
+export const width_abs = 10;
+export const height_abs = 10;
+export const width = 5;
+export const height = 2;
 
-const coords = {};
-const centers = [];
+export const coords = {};
+export const centers = [];
 for (let i = -width_abs; i <= width_abs; i++) {
     for (let j = -height_abs; j <= height_abs; j++) {
         const cellCenter = getCenter(i, j);
@@ -31,7 +34,7 @@ for (let posID in coords) {
 };
 
 // Draw style
-const style = {
+export const style = {
     background: {
         fillColor: 'rgba(255, 255, 255, 1)',
         strokeColor: 'rgba(0, 0, 0, 0.02)',

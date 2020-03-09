@@ -1,3 +1,8 @@
+import { Board } from './board.js';
+import { vw, vh, centerX, centerY, r, planeHeight, widthOffset, width_abs, height_abs, width, height, coords, centers, sytle } from './variables.js';
+import { isEven, hexagon, getClosestCellCenter, getCenter, getPosIDByPosition, getPosIDByIndex, getIndexByPosition } from './helper.js';
+import { mode, determineMode, mouseClicked } from './events.js';
+
 function setup() {
     createCanvas(vw, vh);
     background(220);
@@ -26,3 +31,5 @@ function draw() {
         board.highlightTile()
     }
 }
+
+console.log("test")

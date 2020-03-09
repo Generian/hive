@@ -1,4 +1,9 @@
-class Board {
+import { Tile } from './tile.js';
+import { vw, vh, centerX, centerY, r, planeHeight, widthOffset, width_abs, height_abs, width, height, coords, centers, sytle } from './variables.js';
+import { isEven, hexagon, getClosestCellCenter, getCenter, getPosIDByPosition, getPosIDByIndex, getIndexByPosition } from './helper.js';
+import { mode, determineMode, mouseClicked } from './events.js';
+
+export class Board {
     constructor() {
         this.tiles = this.createTiles()
 

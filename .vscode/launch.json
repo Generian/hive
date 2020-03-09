@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "C:\\projects\\hive\\index.html",
+            "url": "C:\\projects\\hive\\dist\\index.html",
             "webRoot": "${workspaceFolder}"
         }
     ]

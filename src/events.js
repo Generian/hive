@@ -1,10 +1,10 @@
-let mode = {player: "white", action: "select"}
+export let mode = {player: "white", action: "select"}
 
-function determineMode() {
+export function determineMode() {
     return mode
 }
 
-function mouseClicked() {
+export function mouseClicked() {
     console.log("click")
     switch (mode.action) {
         case "set":

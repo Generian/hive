@@ -1,4 +1,7 @@
-function isEven(n) {
+import { vw, vh, centerX, centerY, r, planeHeight, widthOffset, width_abs, height_abs, width, height, coords, centers, sytle } from './variables.js';
+import { mode, determineMode, mouseClicked } from './events.js';
+
+export function isEven(n) {
     if (n % 2 == 0) {
         return 0
     } else {
@@ -6,7 +9,7 @@ function isEven(n) {
     };
  }
  
-function hexagon(pos, label = "", type = "board") {
+ export function hexagon(pos, label = "", type = "board") {
     const s = style[type]
     let angle = TWO_PI / 6;
     fill(s.fillColor);
@@ -26,7 +29,7 @@ function hexagon(pos, label = "", type = "board") {
     text(label, pos.x , pos.y);
 };
 
- function getClosestCellCenter() {
+export function getClosestCellCenter() {
     const mousePos = {x: mouseX, y: mouseY}
     let closestCellPos = centers[0]
 
@@ -45,24 +48,24 @@ function hexagon(pos, label = "", type = "board") {
     return closestCellPos
 }
 
-function getCenter(i, j) {
+export function getCenter(i, j) {
     let x = Math.round((centerX + i * r * 1.5) * 1000) / 1000
     let y = Math.round((centerY + j * planeHeight + isEven(i) * widthOffset) * 1000) / 1000
     return {"x": x, "y": y}
 }
 
- function getPosIDByPosition(centerPos = getClosestCellCenter()) {
+export function getPosIDByPosition(centerPos = getClosestCellCenter()) {
     return `${centerPos.x};${centerPos.y}`
 }
 
-function getPosIDByIndex(index) {
+export function getPosIDByIndex(index) {
     const i = index[0]
     const j = index[1]
     const cellCenter = getCenter(i, j);
     return `${cellCenter.x};${cellCenter.y}`
 }
 
-function getIndexByPosition() {
+export function getIndexByPosition() {
     const posID =  getPosIDByPosition()
     return coords[posID].index
 }
