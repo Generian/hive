@@ -7,6 +7,10 @@ module.exports = {
     devServer: {
         contentBase: './dist',
     },
+    // optimization: {
+    //     concatenateModules: true,
+    //     minimize: false,
+    // },
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),

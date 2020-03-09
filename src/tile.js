@@ -32,4 +32,21 @@ export class Tile {
     updatePos(pos = getIndexByPosition()) {
         this.coordinates = pos;
     }
+
+    getNeighbors() {
+        let neighbors = []
+        if (this.coordinates != []) {
+            const [i, j] = this.coordinates;
+            for (let x = i - 1; x <= i + 1; x++) {
+                for (let y = j - 1; y <= j + 1; y++) {
+                    if (x-i != 0 || y-j != 0) {
+                        if (x-i === 0 || y-j != j+1) {
+                            neighbors.push([x, y])
+                        }
+                    }
+                }
+            }
+        }
+        return neighbors
+    }
 }
