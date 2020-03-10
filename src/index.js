@@ -31,6 +31,7 @@ const sketch = (p) => {
             // Draw tile highlights
             // board.highlightCell()
             board.highlightTile()
+            board.highlightPlayableCells()
         }
     };
 

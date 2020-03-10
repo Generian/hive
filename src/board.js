@@ -55,11 +55,10 @@ export class Board {
         })
     };
 
-    highlightCell() {
-        hexagon(getClosestCellCenter(),"","hover")
+    highlightCell(center = getClosestCellCenter(), text = "", style = "hover") {
+        hexagon(center, text, style)
     };
 
-    
     highlightTile() {
         const posID = getPosIDByPosition();
         this.tiles.forEach((tile) => {
@@ -91,5 +90,24 @@ export class Board {
                 tile[attr] = val
             };
         });
-    }
+    };
+
+    getPlayableCells() {
+        let playableCells = [];
+        this.tiles.forEach((tile) => {
+            tile.getNeighborCells().forEach((index) => {
+                playableCells.push(index);
+            });
+        });
+
+        return playableCells
+    };
+
+    highlightPlayableCells() {
+        this.getPlayableCells().forEach((index) => {
+            const posID = getPosIDByIndex(index);
+            const c = coords[posID].center;
+            this.highlightCell(c,"","highlight");
+        });
+    };
 };

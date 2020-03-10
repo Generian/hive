@@ -69,5 +69,12 @@ export const style = {
         strokeWeight: 3,
         textSize: 32,
         textColor: 'rgba(200, 200, 200, 0.3)'
+    },
+    highlight: {
+        fillColor: 'rgba(245, 245, 245, 0.15)',
+        strokeColor: 'rgba(25, 25, 25, 0.3)',
+        strokeWeight: 2,
+        textSize: 32,
+        textColor: 'rgba(200, 200, 200, 0.3)'
     }
 };
