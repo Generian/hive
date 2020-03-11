@@ -6,7 +6,7 @@ import { isEven, hexagon, getClosestCellCenter, getCenter, getPosIDByPosition, g
 import { mode, determineMode } from './events.js';
 
 // Game initialization
-let board = new Board()
+export let board = new Board()
 
 const sketch = (p) => {
 
@@ -54,8 +54,11 @@ const sketch = (p) => {
                     console.log("drop");
                     board.tiles.forEach((tile) => {
                         if (tile.mode === "follow") {
-                            tile.coordinates = getIndexByPosition()
-                            tile.mode = "static"
+                            const posID = getPosIDByPosition()
+                            if (board.getPlayableCells().includes(posID)) {
+                                tile.coordinates = getIndexByPosition();
+                                tile.mode = "static"
+                            }
                         };
                     });
                     mode.action = "select"

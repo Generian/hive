@@ -95,17 +95,22 @@ export class Board {
     getPlayableCells() {
         let playableCells = [];
         this.tiles.forEach((tile) => {
-            tile.getNeighborCells().forEach((index) => {
-                playableCells.push(index);
-            });
+            if (tile.mode === "static") {
+                tile.getNeighborCells().forEach((index) => {
+                    playableCells.push(getPosIDByIndex(index));
+                });
+            };
         });
+
+        if (playableCells.length === 0) {
+            playableCells.push(getPosIDByIndex([0, 0]));
+        }
 
         return playableCells
     };
 
     highlightPlayableCells() {
-        this.getPlayableCells().forEach((index) => {
-            const posID = getPosIDByIndex(index);
+        this.getPlayableCells().forEach((posID) => {
             const c = coords[posID].center;
             this.highlightCell(c,"","highlight");
         });

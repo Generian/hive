@@ -1,3 +1,5 @@
+import { myP5 } from "./index.js";
+import { board } from "./index.js";
 import { vw, vh, centerX, centerY, r, planeHeight, widthOffset, width_abs, height_abs, width, height, coords, centers, style } from './variables.js';
 import { isEven, hexagon, getClosestCellCenter, getCenter, getPosIDByPosition, getPosIDByIndex, getIndexByPosition } from './helper.js';
 import { mode, determineMode } from './events.js';
@@ -13,24 +15,48 @@ export class Tile {
     }
 
     // Adding a method to the constructor
-    posID() {
-        if (this.coordinates.length == 0) {
-            return getPosIDByPosition(this.pos)
-        } else {
-            return getPosIDByIndex(this.coordinates)
-        }
+    posMode() {
+        return this.coordinates.length === 0;
     }
 
+    posID() {
+        if (this.posMode()) {
+            return getPosIDByPosition(this.pos);
+        } else {
+            return getPosIDByIndex(this.coordinates);
+        }
+    };
+
+    position() {
+        if (this.posMode()) {
+            return this.pos;
+        } else {
+            return coords[getPosIDByIndex(this.coordinates)].center;
+        }
+    };
+
     draw() {
-        hexagon(coords[this.posID()].center, "", `tile_${this.type}`)
+        hexagon(this.position(), "", `tile_${this.type}`)
     }
 
     highlight() {
         hexagon(coords[this.posID()].center, "", "hover")
     }
 
-    updatePos(pos = getIndexByPosition()) {
-        this.coordinates = pos;
+    updatePos(index = getIndexByPosition()) {
+        const posID = getPosIDByPosition();
+        if (this.mode === "follow") {
+            const playableCells = board.getPlayableCells()
+            console.log("index:", index, "playable:", playableCells[0], playableCells.includes(posID))
+            if (playableCells.includes(posID)) {
+                this.coordinates = index;
+            } else {
+                this.coordinates = [];
+                this.pos = {"x": myP5.mouseX, "y": myP5.mouseY};
+            }
+        } else {
+            this.coordinates = index;
+        }
     }
 
     getNeighborCells() {
