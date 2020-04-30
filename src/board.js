@@ -62,7 +62,7 @@ export class Board {
     highlightTile() {
         const posID = getPosIDByPosition();
         this.tiles.forEach((tile) => {
-            if (tile.posID() === posID) {
+            if (tile.posID() === posID && tile.isPlayable()) {
                 tile.highlight()
             };
         });
@@ -95,10 +95,31 @@ export class Board {
     getPlayableCells() {
         let playableCells = [];
         this.tiles.forEach((tile) => {
-            if (tile.mode === "static") {
+            if ((tile.mode === "static" && tile.isPlayable()) || this.tilesOnBoard() === 1) {
                 tile.getNeighborCells().forEach((index) => {
                     playableCells.push(getPosIDByIndex(index));
                 });
+            }
+        });
+
+        this.tiles.forEach((tile) => {
+            // console.log(tile.coordinates, tile.mode, !tile.isPlayable(), !tile.inPlay);
+            if ((tile.mode === "static" && !tile.isPlayable() && !tile.inPlay) && this.tilesOnBoard() != 1) {
+                tile.getNeighborCells().forEach((index) => {
+                    const i = playableCells.indexOf(getPosIDByIndex(index));
+                    if (i > -1) {
+                        playableCells.splice(i, 1);
+                    }
+                });
+            };
+        });
+
+        this.tiles.forEach((tile) => {
+            if (tile.mode === "static") {
+                const index = playableCells.indexOf(tile.posID());
+                if (index > -1) {
+                    playableCells.splice(index, 1);
+                }
             };
         });
 
@@ -115,4 +136,14 @@ export class Board {
             this.highlightCell(c,"","highlight");
         });
     };
+
+    tilesOnBoard() {
+        let counter = 0;
+        this.tiles.forEach((tile) => {
+            if (tile.mode === "static" && tile.coordinates.length > 0) {
+                counter += 1
+            };
+        });
+        return counter;
+    }
 };

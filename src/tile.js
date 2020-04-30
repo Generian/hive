@@ -9,8 +9,9 @@ export class Tile {
         this.pos = pos;
         this.coordinates = [];
         this.type = type;
-        this.playable = true;
+        // this.playable = this.isPlayable();
         this.mode = "static";
+        this.inPlay = false;
         this.level = 1;   
     }
 
@@ -47,7 +48,7 @@ export class Tile {
         const posID = getPosIDByPosition();
         if (this.mode === "follow") {
             const playableCells = board.getPlayableCells()
-            console.log("index:", index, "playable:", playableCells[0], playableCells.includes(posID))
+            // console.log("index:", index, "playable:", playableCells[0], playableCells.includes(posID))
             if (playableCells.includes(posID)) {
                 this.coordinates = index;
             } else {
@@ -81,5 +82,9 @@ export class Tile {
             }
         }
         return neighbors
+    }
+
+    isPlayable() {
+        return mode.player === this.type;
     }
 }

@@ -3,7 +3,7 @@ import p5 from "p5/lib/p5.min";
 import { Board } from './board.js';
 import { vw, vh, centerX, centerY, r, planeHeight, widthOffset, width_abs, height_abs, width, height, coords, centers, style } from './variables.js';
 import { isEven, hexagon, getClosestCellCenter, getCenter, getPosIDByPosition, getPosIDByIndex, getIndexByPosition } from './helper.js';
-import { mode, determineMode } from './events.js';
+import { mode, determineMode, switchPlayer } from './events.js';
 
 // Game initialization
 export let board = new Board()
@@ -41,13 +41,20 @@ const sketch = (p) => {
             case "set":
                 console.log("set");
                 tiles.push(new Tile(getIndexByPosition(), mode.player));
-                mode.player = mode.player === "white" ? "black" : "white";
+                switchPlayer()
                 break;
             case "select":
                 console.log("select");
                 if (board.tileClicked()) {
-                    board.updateTile(getPosIDByPosition(), "mode", "follow")
-                    mode.action = "drop"
+                    board.tiles.forEach((tile) => {
+                        if (tile.type === mode.player && tile.isPlayable()) {
+                            if (tile.posID() == getPosIDByPosition()) {
+                                tile.mode = "follow";
+                                tile.inPlay = true;
+                                mode.action = "drop"
+                            }
+                        };
+                    });  
                 };
                 break;
             case "drop":
@@ -57,11 +64,13 @@ const sketch = (p) => {
                             const posID = getPosIDByPosition()
                             if (board.getPlayableCells().includes(posID)) {
                                 tile.coordinates = getIndexByPosition();
-                                tile.mode = "static"
+                                tile.mode = "static";
+                                tile.inPlay = false;
                             }
                         };
                     });
                     mode.action = "select"
+                    switchPlayer()
                     break;
             case "other":
                 console.log("other");
